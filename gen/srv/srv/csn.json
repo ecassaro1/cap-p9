@@ -1,0 +1,272 @@
+{
+  "namespace": "p9",
+  "definitions": {
+    "CatalogService": {
+      "@source": "srv/cat-service.cds",
+      "kind": "service"
+    },
+    "CatalogService.Items": {
+      "kind": "entity",
+      "@UI.HeaderInfo.Title.$Type": "UI.DataField",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "title"
+      },
+      "@UI.HeaderInfo.TypeName": "Item",
+      "@UI.HeaderInfo.TypeNamePlural": "Items",
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "description"
+          }
+        }
+      ],
+      "@UI.SelectionFields": [
+        {
+          "=": "ID"
+        },
+        {
+          "=": "description"
+        }
+      ],
+      "@cds.autoexposed": true,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "p9.Items"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@Common.Label": "Item ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "description": {
+          "@Common.Label": "Item Description",
+          "type": "cds.String",
+          "length": 40
+        },
+        "theorder": {
+          "type": "cds.Association",
+          "target": "CatalogService.Orders",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "CatalogService.Orders": {
+      "kind": "entity",
+      "@UI.HeaderInfo.Title.$Type": "UI.DataField",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "title"
+      },
+      "@UI.HeaderInfo.TypeName": "Order",
+      "@UI.HeaderInfo.TypeNamePlural": "Orders",
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "description"
+          }
+        }
+      ],
+      "@UI.SelectionFields": [
+        {
+          "=": "ID"
+        },
+        {
+          "=": "description"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "p9.Orders"
+            ]
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "@Common.Label": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "description": {
+          "@Common.Label": "Description",
+          "type": "cds.String",
+          "length": 40
+        },
+        "Items": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CatalogService.Items",
+          "on": [
+            {
+              "ref": [
+                "Items",
+                "theorder"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "entity"
+    },
+    "p9.Items": {
+      "kind": "entity",
+      "@UI.HeaderInfo.Title.$Type": "UI.DataField",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "title"
+      },
+      "@UI.HeaderInfo.TypeName": "Item",
+      "@UI.HeaderInfo.TypeNamePlural": "Items",
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "description"
+          }
+        }
+      ],
+      "@UI.SelectionFields": [
+        {
+          "=": "ID"
+        },
+        {
+          "=": "description"
+        }
+      ],
+      "elements": {
+        "ID": {
+          "@Common.Label": "Item ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "description": {
+          "@Common.Label": "Item Description",
+          "type": "cds.String",
+          "length": 40
+        },
+        "theorder": {
+          "type": "cds.Association",
+          "target": "p9.Orders",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "p9.Orders": {
+      "kind": "entity",
+      "@UI.HeaderInfo.Title.$Type": "UI.DataField",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "title"
+      },
+      "@UI.HeaderInfo.TypeName": "Order",
+      "@UI.HeaderInfo.TypeNamePlural": "Orders",
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "description"
+          }
+        }
+      ],
+      "@UI.SelectionFields": [
+        {
+          "=": "ID"
+        },
+        {
+          "=": "description"
+        }
+      ],
+      "elements": {
+        "ID": {
+          "@Common.Label": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "description": {
+          "@Common.Label": "Description",
+          "type": "cds.String",
+          "length": 40
+        },
+        "Items": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "p9.Items",
+          "on": [
+            {
+              "ref": [
+                "Items",
+                "theorder"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v1.26.2"
+  },
+  "$version": "1.0"
+}
